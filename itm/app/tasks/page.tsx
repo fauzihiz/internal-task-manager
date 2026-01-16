@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTasks } from '@/context/TaskContext';
 import { TaskStatus, TaskPriority, Task, UserRole } from '@/lib/types';
 import TaskModal from '@/components/tasks/TaskModal';
@@ -10,6 +10,11 @@ export default function TasksPage() {
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [search, setSearch] = useState('');
     const [statusFilter, setStatusFilter] = useState<string>('ALL');
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const isManager = currentUser?.role === UserRole.MANAGER;
 
@@ -120,7 +125,7 @@ export default function TasksPage() {
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${task.status === TaskStatus.DONE ? 'bg-green-100 text-green-700' :
-                                                    task.status === TaskStatus.ONGOING ? 'bg-blue-100 text-blue-700' : 'bg-zinc-200 text-zinc-700'
+                                                task.status === TaskStatus.ONGOING ? 'bg-blue-100 text-blue-700' : 'bg-zinc-200 text-zinc-700'
                                                 }`}>
                                                 {task.status}
                                             </span>
@@ -128,7 +133,7 @@ export default function TasksPage() {
                                         <td className="px-6 py-4">
                                             <div className="flex flex-col">
                                                 <span className={`font-medium ${isOverdue ? 'text-red-500' : ''}`}>
-                                                    {new Date(task.dueDate).toLocaleDateString()}
+                                                    {isMounted ? new Date(task.dueDate).toLocaleDateString() : ''}
                                                 </span>
                                                 {isOverdue && <span className="text-[9px] font-bold text-red-500 uppercase">Overdue</span>}
                                             </div>

@@ -25,15 +25,15 @@ export default function ManagerDashboard() {
     });
 
     return (
-        <div className="p-8 space-y-8">
-            <header className="flex items-center justify-between">
+        <div className="p-4 md:p-8 space-y-6 md:space-y-8">
+            <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Team Overview</h1>
-                    <p className="text-zinc-500 font-medium">Monitoring workload, burden metrics, and task urgency.</p>
+                    <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Team Overview</h1>
+                    <p className="text-xs md:text-sm text-zinc-500 font-medium">Monitoring workload, burden metrics, and task urgency.</p>
                 </div>
                 <button
                     onClick={() => setShowCreateModal(true)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl font-bold text-sm shadow-lg shadow-blue-500/20 transition-all flex items-center gap-2"
+                    className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl font-bold text-sm shadow-lg shadow-blue-500/20 transition-all flex items-center justify-center gap-2"
                 >
                     <span>+</span> Create New Task
                 </button>
@@ -98,8 +98,8 @@ export default function ManagerDashboard() {
             </section>
 
             {/* Search & Filter Bar */}
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-zinc-50 dark:bg-zinc-950 p-4 rounded-2xl border border-zinc-100 dark:border-zinc-800">
-                <div className="relative w-full md:w-96">
+            <div className="flex flex-col lg:flex-row gap-4 items-center justify-between bg-zinc-50 dark:bg-zinc-950 p-4 rounded-2xl border border-zinc-100 dark:border-zinc-800">
+                <div className="relative w-full lg:w-96">
                     <input
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
@@ -108,22 +108,22 @@ export default function ManagerDashboard() {
                     />
                     <span className="absolute left-3.5 top-2.5 text-zinc-400 text-xs">🔍</span>
                 </div>
-                <div className="flex gap-4 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+                <div className="flex gap-2 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0 scrollbar-hide">
                     <button
                         onClick={() => setPriorityFilter('ALL')}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${priorityFilter === 'ALL' ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-900' : 'bg-white dark:bg-zinc-800 text-zinc-500 border border-zinc-200 dark:border-zinc-700'}`}
+                        className={`flex-1 lg:flex-none px-3 py-1.5 rounded-lg text-[10px] md:text-xs font-bold transition-all whitespace-nowrap ${priorityFilter === 'ALL' ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-900' : 'bg-white dark:bg-zinc-800 text-zinc-500 border border-zinc-200 dark:border-zinc-700'}`}
                     >
                         All Priority
                     </button>
                     <button
                         onClick={() => setPriorityFilter(TaskPriority.HIGH)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border whitespace-nowrap ${priorityFilter === TaskPriority.HIGH ? 'bg-red-500 text-white border-red-600' : 'bg-white dark:bg-zinc-800 text-red-500 border-red-200 dark:border-red-900/30'}`}
+                        className={`flex-1 lg:flex-none px-3 py-1.5 rounded-lg text-[10px] md:text-xs font-bold transition-all border whitespace-nowrap ${priorityFilter === TaskPriority.HIGH ? 'bg-red-500 text-white border-red-600' : 'bg-white dark:bg-zinc-800 text-red-500 border-red-200 dark:border-red-900/30'}`}
                     >
                         High Only
                     </button>
                     <button
                         onClick={() => setPriorityFilter(TaskPriority.MEDIUM)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border whitespace-nowrap ${priorityFilter === TaskPriority.MEDIUM ? 'bg-amber-500 text-white border-amber-600' : 'bg-white dark:bg-zinc-800 text-amber-500 border-amber-200 dark:border-amber-900/30'}`}
+                        className={`flex-1 lg:flex-none px-3 py-1.5 rounded-lg text-[10px] md:text-xs font-bold transition-all border whitespace-nowrap ${priorityFilter === TaskPriority.MEDIUM ? 'bg-amber-500 text-white border-amber-600' : 'bg-white dark:bg-zinc-800 text-amber-500 border-amber-200 dark:border-amber-900/30'}`}
                     >
                         Medium
                     </button>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTasks } from '@/context/TaskContext';
 import { Task, TaskStatus, TaskPriority, UserRole } from '@/lib/types';
 
@@ -13,6 +13,11 @@ export default function TaskModal({ task, onClose }: TaskModalProps) {
     const { updateTaskStatus, addComment, currentUser, deleteTask, editTask, users } = useTasks();
     const [commentText, setCommentText] = useState('');
     const [isEditing, setIsEditing] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     // Edit form state
     const [editTitle, setEditTitle] = useState(task.title);
@@ -60,14 +65,14 @@ export default function TaskModal({ task, onClose }: TaskModalProps) {
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4">
-            <div className="w-full max-w-2xl bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden flex flex-col max-h-[90vh]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-2 sm:p-4">
+            <div className="w-full max-w-2xl bg-white dark:bg-zinc-900 rounded-2xl sm:rounded-3xl shadow-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden flex flex-col max-h-[95vh] sm:max-h-[90vh]">
                 {/* Header */}
-                <div className="p-6 border-b border-zinc-100 dark:border-zinc-800 flex items-start justify-between bg-zinc-50/50 dark:bg-zinc-950/50">
+                <div className="p-4 sm:p-6 border-b border-zinc-100 dark:border-zinc-800 flex items-start justify-between bg-zinc-50/50 dark:bg-zinc-950/50">
                     <div className="flex-1 mr-4">
                         <div className="flex items-center gap-3 mb-2">
                             <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${task.status === TaskStatus.DONE ? 'bg-green-100 text-green-700' :
-                                    task.status === TaskStatus.ONGOING ? 'bg-blue-100 text-blue-700' : 'bg-zinc-200 text-zinc-700'
+                                task.status === TaskStatus.ONGOING ? 'bg-blue-100 text-blue-700' : 'bg-zinc-200 text-zinc-700'
                                 }`}>
                                 {task.status}
                             </span>
@@ -110,7 +115,7 @@ export default function TaskModal({ task, onClose }: TaskModalProps) {
                                     className="w-full text-sm bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                                     rows={4}
                                 />
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-[10px] font-bold uppercase text-zinc-500 mb-1">Assignee</label>
                                         <select
@@ -132,8 +137,8 @@ export default function TaskModal({ task, onClose }: TaskModalProps) {
                                         />
                                     </div>
                                 </div>
-                                <div className="flex gap-2">
-                                    <button onClick={handleSaveEdit} className="flex-1 bg-blue-600 text-white font-bold py-2 rounded-lg text-sm">Save Changes</button>
+                                <div className="flex flex-col sm:flex-row gap-2">
+                                    <button onClick={handleSaveEdit} className="flex-1 bg-blue-600 text-white font-bold py-2 rounded-lg text-sm order-1 sm:order-none">Save Changes</button>
                                     <button onClick={() => setIsEditing(false)} className="flex-1 bg-zinc-100 dark:bg-zinc-800 font-bold py-2 rounded-lg text-sm">Cancel</button>
                                 </div>
                             </div>
@@ -152,7 +157,7 @@ export default function TaskModal({ task, onClose }: TaskModalProps) {
                                     <div key={comment.id} className="bg-zinc-50 dark:bg-zinc-950 p-4 rounded-xl border border-zinc-100 dark:border-zinc-800">
                                         <div className="flex items-center justify-between mb-2">
                                             <span className="text-xs font-bold text-blue-600 dark:text-blue-400">{comment.userName}</span>
-                                            <span className="text-[10px] text-zinc-400">{new Date(comment.createdAt).toLocaleString()}</span>
+                                            <span className="text-[10px] text-zinc-400">{isMounted ? new Date(comment.createdAt).toLocaleString() : ''}</span>
                                         </div>
                                         <p className="text-sm dark:text-zinc-200">{comment.text}</p>
                                     </div>
@@ -180,25 +185,25 @@ export default function TaskModal({ task, onClose }: TaskModalProps) {
                 </div>
 
                 {/* Footer Actions */}
-                <div className="p-6 border-t border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/50 flex items-center justify-between">
-                    <div className="flex gap-2">
+                <div className="p-4 sm:p-6 border-t border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="flex w-full sm:w-auto gap-2">
                         <button
                             onClick={() => handleStatusChange(TaskStatus.TODO)}
-                            className={`px-4 py-2 text-xs font-bold rounded-lg border transition-all ${task.status === TaskStatus.TODO ? 'bg-zinc-200 dark:bg-zinc-800 border-zinc-300' : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 opacity-50'
+                            className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 text-[10px] sm:text-xs font-bold rounded-lg border transition-all ${task.status === TaskStatus.TODO ? 'bg-zinc-200 dark:bg-zinc-800 border-zinc-300' : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 opacity-50'
                                 }`}
                         >
                             Todo
                         </button>
                         <button
                             onClick={() => handleStatusChange(TaskStatus.ONGOING)}
-                            className={`px-4 py-2 text-xs font-bold rounded-lg border transition-all ${task.status === TaskStatus.ONGOING ? 'bg-blue-50 text-blue-600 border-blue-200' : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 opacity-50'
+                            className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 text-[10px] sm:text-xs font-bold rounded-lg border transition-all ${task.status === TaskStatus.ONGOING ? 'bg-blue-50 text-blue-600 border-blue-200' : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 opacity-50'
                                 }`}
                         >
                             Ongoing
                         </button>
                         <button
                             onClick={() => handleStatusChange(TaskStatus.DONE)}
-                            className={`px-4 py-2 text-xs font-bold rounded-lg border transition-all ${task.status === TaskStatus.DONE ? 'bg-green-600 text-white border-green-700' : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 opacity-50'
+                            className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 text-[10px] sm:text-xs font-bold rounded-lg border transition-all ${task.status === TaskStatus.DONE ? 'bg-green-600 text-white border-green-700' : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 opacity-50'
                                 }`}
                         >
                             Done
@@ -213,7 +218,7 @@ export default function TaskModal({ task, onClose }: TaskModalProps) {
                                     onClose();
                                 }
                             }}
-                            className="px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-all"
+                            className="w-full sm:w-auto px-4 py-2 text-xs font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-all"
                         >
                             🗑 Delete
                         </button>

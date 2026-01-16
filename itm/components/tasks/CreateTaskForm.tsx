@@ -36,15 +36,15 @@ export default function CreateTaskForm({ onClose }: CreateTaskFormProps) {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className="w-full max-w-lg bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
-                <div className="p-6 border-b border-zinc-100 dark:border-zinc-800 flex items-center justify-between">
+            <div className="w-full max-w-lg bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden max-h-[90vh] flex flex-col">
+                <div className="p-4 sm:p-6 border-b border-zinc-100 dark:border-zinc-800 flex items-center justify-between">
                     <h2 className="text-xl font-bold">Create New Task</h2>
-                    <button onClick={onClose} className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200">
+                    <button onClick={onClose} className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 p-2">
                         ✕
                     </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="p-6 space-y-5">
+                <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 sm:space-y-5 overflow-y-auto flex-1">
                     <div>
                         <label className="block text-xs font-bold uppercase text-zinc-500 mb-1.5">Task Title</label>
                         <input
@@ -67,7 +67,7 @@ export default function CreateTaskForm({ onClose }: CreateTaskFormProps) {
                         />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-xs font-bold uppercase text-zinc-500 mb-1.5">Assignee</label>
                             <select

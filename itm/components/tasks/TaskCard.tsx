@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Task, TaskStatus, TaskPriority } from '@/lib/types';
 import { useTasks } from '@/context/TaskContext';
 
@@ -11,6 +12,12 @@ interface TaskCardProps {
 
 export default function TaskCard({ task, showAssignee = true, onClick }: TaskCardProps) {
     const { users, updateTaskStatus } = useTasks();
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
     const assignee = users.find((u) => u.id === task.assigneeId);
 
     const isOverdue = new Date(task.dueDate) < new Date() && task.status !== TaskStatus.DONE;
@@ -62,7 +69,7 @@ export default function TaskCard({ task, showAssignee = true, onClick }: TaskCar
                         <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-[10px] font-bold text-blue-700 dark:bg-blue-900/40 dark:text-blue-400">
                             {assignee?.avatar || assignee?.name.charAt(0)}
                         </div>
-                        <span className="text-[11px] font-medium text-zinc-700 dark:text-zinc-300">
+                        <span className="text-[11px] font-medium text-zinc-700 dark:text-zinc-300 truncate max-w-[80px] sm:max-w-none">
                             {assignee?.name || 'Unassigned'}
                         </span>
                     </div>
@@ -74,8 +81,8 @@ export default function TaskCard({ task, showAssignee = true, onClick }: TaskCar
                             💬 {task.comments.length}
                         </span>
                     )}
-                    <span className="text-[10px] text-zinc-400">
-                        📅 {new Date(task.dueDate).toLocaleDateString()}
+                    <span className="text-[10px] text-zinc-400 whitespace-nowrap">
+                        📅 {isMounted ? new Date(task.dueDate).toLocaleDateString() : ''}
                     </span>
                 </div>
             </div>

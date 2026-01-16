@@ -21,11 +21,11 @@ export default function MemberDashboard() {
     const doneTasks = filteredTasks.filter(t => t.status === TaskStatus.DONE);
 
     return (
-        <div className="p-8 space-y-8">
+        <div className="p-4 md:p-8 space-y-6 md:space-y-8">
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">My Workspace</h1>
-                    <p className="text-zinc-500 font-medium mt-1">Hello {currentUser?.name}, focus on your active priority list.</p>
+                    <h1 className="text-2xl md:text-3xl font-bold tracking-tight">My Workspace</h1>
+                    <p className="text-xs md:text-sm text-zinc-500 font-medium mt-1">Hello {currentUser?.name}, focus on your active priority list.</p>
                 </div>
 
                 <div className="relative w-full md:w-80">
@@ -33,27 +33,27 @@ export default function MemberDashboard() {
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         placeholder="Search my tasks..."
-                        className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl text-sm focus:ring-2 focus:ring-blue-500 shadow-sm outline-none"
+                        className="w-full pl-10 pr-4 py-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 shadow-sm outline-none"
                     />
-                    <span className="absolute left-3.5 top-3 text-zinc-400">🔍</span>
+                    <span className="absolute left-3.5 top-2.5 text-zinc-400">🔍</span>
                 </div>
             </header>
 
             {selectedTask && <TaskModal task={selectedTask} onClose={() => setSelectedTask(null)} />}
 
             {/* Stats Summary */}
-            <section className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="rounded-2xl p-7 shadow-xl transition-all bg-blue-600 shadow-blue-500/20">
+            <section className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                <div className="rounded-2xl p-5 md:p-7 shadow-xl transition-all bg-blue-600 shadow-blue-500/20">
                     <div className="flex justify-between items-start mb-1">
                         <p className="text-blue-100 text-[10px] font-bold uppercase tracking-widest">
                             My Active Tasks
                         </p>
                     </div>
-                    <p className="text-5xl font-bold tracking-tighter text-white">{activeTasks.length}</p>
+                    <p className="text-4xl md:text-5xl font-bold tracking-tighter text-white">{activeTasks.length}</p>
                 </div>
-                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-7 shadow-sm">
+                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 md:p-7 shadow-sm">
                     <p className="text-zinc-500 dark:text-zinc-400 text-[10px] font-bold uppercase tracking-widest mb-1">Completed History</p>
-                    <p className="text-5xl font-bold tracking-tighter">{doneTasks.length}</p>
+                    <p className="text-4xl md:text-5xl font-bold tracking-tighter">{doneTasks.length}</p>
                 </div>
             </section>
 

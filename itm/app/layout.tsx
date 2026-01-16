@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 import { TaskProvider } from "@/context/TaskContext";
-import Sidebar from "@/components/layout/Sidebar";
+import LayoutContent from "@/components/layout/LayoutContent";
 
 export default function RootLayout({
   children,
@@ -28,13 +28,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex bg-zinc-50 dark:bg-zinc-950`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col lg:flex-row bg-zinc-50 dark:bg-zinc-950`}
       >
         <TaskProvider>
-          <Sidebar />
-          <main className="flex-1 ml-64 min-h-screen">
+          <LayoutContent>
             {children}
-          </main>
+          </LayoutContent>
         </TaskProvider>
       </body>
     </html>
